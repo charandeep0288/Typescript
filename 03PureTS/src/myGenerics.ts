@@ -29,10 +29,10 @@ function identityFour<T,>(val: T): T { // instead of "T" we can create ower own 
 
 interface Bootle { // created my own type that I want and using it.
     brand: string,
-    type: number, 
+    type: number,
 }
 
-identityFour<Bootle>({brand: "LG", type: 3})
+identityFour<Bootle>({ brand: "LG", type: 3 })
 
 
 // --------------------------------------------------
@@ -47,8 +47,60 @@ function getSearchProducts<T,>(products: T[]): T { // <T,> repesents that it is 
 }
 
 // Generics in Arrow fn
-const getMoreSearchProducts = <T,>(products: Array<T> ): T => { // <T> -> syntactical sugar, Array<T> is same as T[]
+const getMoreSearchProducts = <T,>(products: Array<T>): T => { // <T> -> syntactical sugar, Array<T> is same as T[]
     // do some database operations
     const myIndex = 4;
-    return products[myIndex]; 
+    return products[myIndex];
+}
+
+
+// ------------------------------------------------------------
+// Using Type Parameters in Generic Constraints
+
+interface Database {
+    connection: string,
+    username: string,
+    password: string,
+}
+
+function anotherFunction<T, U extends number>(valOne: T, valTwo: U): object {
+    return {
+        valOne,
+        valTwo
+    };
+}
+
+function anotherFunction_01<T, U extends Database>(valOne: T, valTwo: U): object {
+    return {
+        valOne,
+        valTwo
+    };
+}
+
+// anotherFunction(3, "4"); // this would not work if we have defined that we are going to get 2nd argument as "number" using "extends" 
+anotherFunction(3, 12);
+anotherFunction(3, 4.6);
+
+anotherFunction_01(3, { connection: "DBMS", username: "Charan", password: "password11" })
+
+
+// Using Class Types in Generics
+interface Quiz {
+    name: string,
+    type: string,
+}
+
+interface Course {
+    name: string,
+    author: string,
+    subject: string,
+}
+
+class Sellable<T,> { // Generic Class
+    public cart: T[] = [];
+
+
+    addToCart(product: T) {
+        this.cart.push(product);
+    }
 }
