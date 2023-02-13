@@ -62,3 +62,33 @@ function isAdminAccount(account: User | Admin) {
         return account.isAdmin;
     }
 }
+
+
+// ------------------------------------------------
+// Instaneceof and Type Predicates
+
+function logValue(x: Date | string) { // "typeof" checks for the default types, and "instanceof" checks if that object was an instance of some class
+    if(x instanceof Date) {
+        console.log(x.toUTCString());
+    } else {
+        console.log(x.toUpperCase());
+    }
+}
+
+// Type Predicates
+type Fish = {swim: () => void};
+type Bird = {fly: () => void};
+
+function isFish(pet: Fish | Bird): pet is Fish {
+    return (pet as Fish).swim !== undefined // returning true or false value which is boolean
+}
+
+function getFood(pet: Fish | Bird) { // Fish and Bird eat different food
+    if(isFish(pet)) {
+        pet // Typescirpt is still confused about the type of the "pet" we are going to sent here. When we have defined return type to be "Fish" in this "isFish" fn then Typescript knows which type of value is  going to come here 
+        return "fish food";
+    } else {
+        pet // Typescirpt is still confused about the type of the "pet" we are going to sent here. When we have defined return type to be "Fish" in this "isFish" fn then Typescript knows which type of value is  going to come here 
+        return "bird food"
+    }
+}
