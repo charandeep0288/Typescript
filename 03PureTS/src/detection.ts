@@ -92,3 +92,50 @@ function getFood(pet: Fish | Bird) { // Fish and Bird eat different food
         return "bird food"
     }
 }
+
+
+// -----------------------------------------------
+// Discriminated Union and Exhaustiveness Checking with never
+
+interface Circle {
+    kind: "circle", // use the kind here in interface, this is Discriminated Union
+    radius: number,
+}
+
+interface Square {
+    kind: "square", 
+    side: number
+}
+
+interface Rectangle {
+    kind: "rectangle",
+    length: number,
+    width: number
+}
+
+type Shape = Circle | Square | Rectangle;
+
+function getTrueShape(shape: Shape) {
+    if(shape.kind === "circle") {
+        return Math.PI * shape.radius ** 2;
+    } else {
+        // return shape.side * shape.side;
+    }
+}
+
+function getArea(shape: Shape) {
+    switch(shape.kind) {
+        case "circle":
+            return Math.PI * shape.radius ** 2;
+
+        case "square":
+            return shape.side * shape.side;
+
+        case "rectangle":
+            return shape.length * shape.width;
+
+        default: 
+            const _defaultforshape: never = shape // For eg:- checks for payment gate way, this would be a nice check to have 
+            return _defaultforshape;
+    }
+}
